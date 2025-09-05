@@ -91,12 +91,13 @@ class RealGPUProcessor:
         
         # ACTUAL GPU COMPUTATION
         with torch.inference_mode():
-            # Apply style transfer effect
-            processed_tensor = self.model(frame_tensor)
-            
-            # Add some visual effect to make processing obvious
-            # Edge enhancement + color shift
-            edge_enhanced = self._add_edge_enhancement(processed_tensor)
+            # For debugging: start with passthrough, then add processing
+            if True:  # Now enable GPU model processing
+                processed_tensor = self.model(frame_tensor)
+                edge_enhanced = self._add_edge_enhancement(processed_tensor)
+            else:
+                # Simple passthrough with visible effect
+                edge_enhanced = frame_tensor * 0.8 + 0.2  # Brighten slightly to show processing
             
         # Convert back to display format
         output = edge_enhanced.squeeze(0).permute(1, 2, 0).cpu().numpy()
@@ -115,24 +116,33 @@ class RealGPUProcessor:
         return output_bgr
     
     def _add_edge_enhancement(self, tensor):
-        """Add visible processing effect to show GPU is actually working"""
+        """Add useful and visible processing effects"""
         
-        # Simple but visible effects that definitely work
-        # 1. Invert colors partially (very obvious)
-        inverted = 1.0 - tensor  # Invert
+        # Keep 90% of original image so you can clearly see yourself
+        original = tensor
         
-        # 2. Add rainbow color effect
-        B, C, H, W = tensor.shape
+        # 1. Edge detection for sharpening effect
+        edge_kernel = torch.tensor([
+            [[0, -0.5, 0],
+             [-0.5, 3, -0.5], 
+             [0, -0.5, 0]]
+        ], dtype=tensor.dtype, device=tensor.device).unsqueeze(0).repeat(3, 1, 1, 1)
         
-        # Create color gradients
-        x_grad = torch.linspace(-1, 1, W, device=tensor.device, dtype=tensor.dtype).view(1, 1, 1, W)
-        y_grad = torch.linspace(-1, 1, H, device=tensor.device, dtype=tensor.dtype).view(1, 1, H, 1)
+        sharpened = torch.nn.functional.conv2d(original, edge_kernel, padding=1, groups=3)
         
-        # Apply different effects to each channel
-        enhanced = tensor.clone()
-        enhanced[:, 0] = tensor[:, 0] + 0.3 * x_grad  # Red channel with x gradient
-        enhanced[:, 1] = tensor[:, 1] + 0.3 * y_grad  # Green channel with y gradient  
-        enhanced[:, 2] = tensor[:, 2] * 0.7 + inverted[:, 2] * 0.3  # Blue channel partially inverted
+        # 2. Slight color temperature shift (warmer/cooler effect)
+        color_matrix = torch.tensor([
+            [1.1, 0.05, -0.05],  # More red
+            [0.0, 1.0, 0.05],    # Slight green boost  
+            [-0.1, 0.0, 1.15]    # More blue, less red influence
+        ], dtype=tensor.dtype, device=tensor.device)
+        
+        B, C, H, W = original.shape
+        flat_image = original.view(B, C, -1)  # Flatten spatial dims
+        color_shifted = torch.matmul(color_matrix, flat_image).view(B, C, H, W)
+        
+        # Combine: 85% original + 10% sharpening + 5% color shift
+        enhanced = 0.85 * original + 0.10 * sharpened + 0.05 * color_shifted
         
         return torch.clamp(enhanced, -1, 1)
     
@@ -587,8 +597,13 @@ def main():
     try:
         # Use SSL context for HTTPS (required for camera access)
         import ssl
+        import os
+        
+        cert_path = os.path.join(os.path.dirname(__file__), 'cert.pem')
+        key_path = os.path.join(os.path.dirname(__file__), 'key.pem')
+        
         context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-        context.load_cert_chain('cert.pem', 'key.pem')
+        context.load_cert_chain(cert_path, key_path)
         
         app.run(host=args.host, port=args.port, debug=False, threaded=True, ssl_context=context)
     except KeyboardInterrupt:
