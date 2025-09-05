@@ -560,8 +560,9 @@ def main():
     print(f"⚡ Model: {sum(p.numel() for p in gpu_processor.model.parameters()):,} parameters")
     print(f"🔧 Optimization: FP16 + Channels Last + Tensor Cores")
     print(f"\n🌐 Server Info:")
-    print(f"   📱 Local: http://localhost:{args.port}")
-    print(f"   🌍 Your LAN: http://{local_ip}:{args.port}")
+    print(f"   📱 Local: https://localhost:{args.port}")
+    print(f"   🌍 Your LAN: https://{local_ip}:{args.port}")
+    print(f"   🔒 HTTPS enabled for camera access")
     print(f"\n📷 Demo Features:")
     print(f"   ✅ Real camera access (WebRTC)")
     print(f"   ✅ Live GPU neural network processing")  
@@ -581,7 +582,12 @@ def main():
     print(f"   5. Share your processed video!")
     
     try:
-        app.run(host=args.host, port=args.port, debug=False, threaded=True)
+        # Use SSL context for HTTPS (required for camera access)
+        import ssl
+        context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+        context.load_cert_chain('cert.pem', 'key.pem')
+        
+        app.run(host=args.host, port=args.port, debug=False, threaded=True, ssl_context=context)
     except KeyboardInterrupt:
         print(f"\n⏹️ Demo stopped")
 
