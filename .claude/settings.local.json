@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit(**)",
+      "Read(**)",
+      /* network + shell */
+      "WebFetch(*)",
+      "Search(*)",
+      "Bash(git:*)",
+      "Bash(ssh:*)",
+      "Bash(scp:*)"
+    ],
+    "deny": []
+  }
+}
+
