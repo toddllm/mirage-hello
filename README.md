@@ -10,6 +10,8 @@ This project is inspired by the groundbreaking work showcased in this interview 
 
 ### **📺 [Watch the Full Interview](https://youtu.be/E23cV48Iv9A?si=dUPEDIwvhvIT-r-p)**
 
+[![Mirage/Daycart Real-Time Video Generation Interview](video-preview.png)](https://youtu.be/E23cV48Iv9A?si=dUPEDIwvhvIT-r-p)
+
 **Key Insights from the Interview:**
 
 **The Technical Challenge:**
