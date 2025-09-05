@@ -83,11 +83,13 @@ python working_gpu_demo.py --help
 
 ### Development Tools
 ```bash
-# Install dev dependencies
-pip install pytest black flake8 mypy
+# Core dependencies only at this stage
+pip install torch torchvision pynvml psutil
 
-# Install CUDA profiling tools (optional)
+# CUDA profiling tools (optional for advanced optimization)
 pip install py-spy line_profiler memory_profiler
+
+# Note: We use manual testing - no automated CI/CD at this early stage
 ```
 
 ## 📊 Before You Start: Run Benchmarks
@@ -198,15 +200,12 @@ def optimize_attention(
 
 ### Running Tests
 ```bash
-# Run all tests
-pytest tests/
+# Manual testing approach (early development stage)
+python examples/basic/quick_demo.py           # Basic functionality
+python benchmarks/run_benchmarks.py --all     # Performance validation
+python examples/advanced/day2_fixed.py        # Latest optimizations
 
-# Run specific test category
-pytest tests/test_models.py
-pytest tests/test_performance.py
-
-# Run with coverage
-pytest --cov=. tests/
+# Note: Automated test suite will be added once core optimizations stabilize
 ```
 
 ### Writing Tests

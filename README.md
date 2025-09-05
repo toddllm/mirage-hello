@@ -153,6 +153,8 @@ This project recreates the breakthrough showcased in [this interview](https://yo
 4. **Implement in examples/** following patterns
 5. **Submit PR** with benchmark comparisons
 
+*Note: We use manual testing at this stage - automated CI/CD will come later when the core optimizations are stable.*
+
 ---
 
 ## 💬 **Community**
