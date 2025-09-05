@@ -4,7 +4,36 @@
 
 This project is an **open-source community effort** to understand, implement, and optimize real-time video generation like Mirage/Daycart achieved. We're building from first principles, learning together, and pushing the boundaries of what's possible.
 
-### 🎯 What We've Built So Far
+### 🎥 Background: The Mirage/Daycart Breakthrough
+
+This project is inspired by the groundbreaking work showcased in this interview with Dean, co-founder and CEO of Daycart:
+
+### **📺 [Watch the Full Interview](https://youtu.be/E23cV48Iv9A?si=dUPEDIwvhvIT-r-p)**
+
+**Key Insights from the Interview:**
+
+**The Technical Challenge:**
+> *"That same problem that LLMs dealt with a few years ago comes back when you try to do auto regressive video models... the model gets stuck in this loop until it just gets stuck on a single color and your entire screen just becomes reds or blue or green"*
+
+**The Performance Breakthrough:**
+> *"The current version that you saw is 40 millisecond delay. The next version of Mirage is going to be 16 milliseconds delay"*
+
+**The Technical Innovation:**
+> *"We sat and wrote lots of assembly for GPUs. It's called PTX... It's the actual assembly that gets written on the GPU... we had to write very very optimized assembly code for GPUs to get this to be efficient"*
+
+**The Architecture:**
+> *"It's kind of like training a video model just on next frame prediction and not next token prediction. You just have to predict the next frame each time"*
+
+**The Breakthrough Approach:**
+- **Frame-by-Frame Generation**: Unlike traditional video models that generate entire sequences, Mirage predicts one frame at a time autoregressively
+- **Error Accumulation Solution**: Solved the critical problem where video models "get stuck in loops" and degrade to single colors
+- **PTX Assembly Optimization**: Hand-written GPU assembly code to achieve the extreme performance required for real-time generation
+- **Live Stream Processing**: Processes input and generates output streams in real-time, not batch processing
+
+**Why This Matters:**
+Mirage/Daycart achieved something unprecedented - **real-time video-to-video transformation** at 25+ FPS with plans for 62.5+ FPS. But their solution is closed-source. We're building the open alternative that makes this technology accessible to everyone.
+
+## 🎯 What We've Built So Far
 
 We've created a working foundation that demonstrates the **real computational challenges** of video diffusion:
 
