@@ -1,0 +1,88 @@
+name: 🚀 Performance Optimization
+description: Suggest or report performance improvements
+title: "[PERF] "
+labels: ["optimization", "performance"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping make Mirage Hello faster! 🔥
+        
+        Please provide benchmark data to help us prioritize optimizations.
+
+  - type: dropdown
+    id: optimization-type
+    attributes:
+      label: Optimization Type
+      description: What type of optimization is this?
+      options:
+        - Memory usage reduction
+        - Speed improvement (FPS)
+        - GPU utilization improvement
+        - Model architecture optimization
+        - CUDA kernel optimization
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-performance
+    attributes:
+      label: Current Performance
+      description: What's the current performance? (Run `python benchmark.py --model heavy --duration 30`)
+      placeholder: |
+        Model: Heavy (192 channels)
+        FPS: 20.5
+        Frame Time: 244ms  
+        Memory: 11GB
+        GPU Utilization: 85.6%
+        vs Mirage Target: 6.1x slower
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-improvement
+    attributes:
+      label: Expected Improvement
+      description: What performance improvement do you expect?
+      placeholder: |
+        Expected FPS: 40+ (2x improvement)
+        Expected memory: 7GB (35% reduction)
+        Expected GPU util: 90%+
+    validations:
+      required: true
+
+  - type: textarea
+    id: optimization-idea
+    attributes:
+      label: Optimization Approach
+      description: How do you propose to achieve this improvement?
+      placeholder: |
+        - Implement mixed precision (FP16) training
+        - Use Flash Attention for efficient attention computation
+        - Optimize memory layout for better coalescing
+        - Custom CUDA kernels for bottleneck operations
+    validations:
+      required: true
+
+  - type: dropdown
+    id: difficulty
+    attributes:
+      label: Implementation Difficulty
+      options:
+        - Easy (PyTorch optimizations)
+        - Medium (Architecture changes)
+        - Hard (Custom CUDA kernels)
+        - Expert (PTX assembly)
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any profiling data, research papers, or other relevant information
+      placeholder: |
+        - Profiling shows 60% time spent in attention computation
+        - Reference paper: "Flash Attention: Fast and Memory-Efficient..."
+        - Similar optimization in project X achieved 2.5x speedup
