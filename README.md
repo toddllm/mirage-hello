@@ -14,28 +14,26 @@ pip install torch torchvision pynvml
 
 python examples/basic/quick_demo.py  # See it work in 30 seconds
 ```
+**→ [Start Here: examples/basic/quick_demo.py](examples/basic/quick_demo.py)**
 
 ### 🔬 **I want to optimize performance**
 ```bash
 python benchmarks/run_benchmarks.py     # See current performance
-python examples/advanced/day2_mixed_precision.py  # Latest optimizations  
-# Check docs/intermediate/ for optimization guides
+python examples/advanced/day2_fixed.py  # Latest optimizations  
 ```
+**→ [Run Benchmarks: benchmarks/run_benchmarks.py](benchmarks/run_benchmarks.py)**  
+**→ [Latest Optimizations: examples/advanced/day2_fixed.py](examples/advanced/day2_fixed.py)**  
+**→ [Optimization Guide: docs/intermediate/OPTIMIZATION_GUIDE.md](docs/intermediate/OPTIMIZATION_GUIDE.md)**
 
 ### 🧠 **I want to understand the research**
-```bash
-# Read the technical background
-open docs/TECHNICAL_BACKGROUND.md      # The Mirage breakthrough explained
-open docs/intermediate/ARCHITECTURE.md # How our implementation works
-open ROADMAP.md                        # 4-week optimization plan
-```
+**→ [Technical Background: docs/TECHNICAL_BACKGROUND.md](docs/TECHNICAL_BACKGROUND.md)**  
+**→ [Development Roadmap: ROADMAP.md](ROADMAP.md)**  
+**→ [Tensor Core Guide: docs/expert/TENSOR_CORE_OPTIMIZATION.md](docs/expert/TENSOR_CORE_OPTIMIZATION.md)**
 
 ### ⚡ **I want to contribute** 
-```bash
-open CONTRIBUTING.md                   # Contribution guide
-python benchmarks/baseline_benchmark.py  # Establish your baseline
-# Check GitHub Issues for specific tasks
-```
+**→ [Contribution Guide: CONTRIBUTING.md](CONTRIBUTING.md)**  
+**→ [Getting Started Guide: docs/beginner/GETTING_STARTED.md](docs/beginner/GETTING_STARTED.md)**  
+**→ [GitHub Issues: View Open Tasks](https://github.com/toddllm/mirage-hello/issues)**
 
 ---
 
@@ -51,10 +49,10 @@ python benchmarks/baseline_benchmark.py  # Establish your baseline
 *Note: Current results are on simplified 30M param model. Production models (500M-1B params) will show realistic challenges.*
 
 ### **📊 Recent Breakthroughs**
-- **Day 1 → Day 2**: Fixed memory issues (98.4% reduction achieved)
-- **Mixed Precision**: 1.96x speedup with proper FP16 implementation  
-- **Architecture**: SDPA Flash Attention + Tensor Core optimization
-- **Infrastructure**: Automated benchmarking and profiling tools
+- **Day 1 → Day 2**: Fixed memory issues (98.4% reduction achieved) → [See Details](examples/advanced/day2_fixed.py)
+- **Mixed Precision**: 1.96x speedup with proper FP16 implementation → [Implementation Guide](docs/intermediate/OPTIMIZATION_GUIDE.md)
+- **Tensor Core Research**: Exact requirements for RTX 3090 optimization → [Expert Guide](docs/expert/TENSOR_CORE_OPTIMIZATION.md)
+- **Infrastructure**: Automated benchmarking and profiling tools → [Benchmarks](benchmarks/)
 
 ---
 
@@ -78,12 +76,19 @@ This project recreates the breakthrough showcased in [this interview](https://yo
 ```
 ├── examples/
 │   ├── basic/           # Start here - simple demos
+│   │   ├── quick_demo.py        # 30-second working demo
+│   │   └── gpu_stress_test.py   # Production-scale testing
 │   └── advanced/        # Latest optimizations (Day 1-2 results)
+│       ├── day2_fixed.py        # 98.4% memory reduction
+│       └── mixed_precision_lsd.py # 1.96x speedup techniques
 ├── benchmarks/          # Performance testing and comparison
+│   ├── run_benchmarks.py        # Main benchmarking suite
+│   └── memory_profiler.py       # Bottleneck analysis
 ├── docs/               # Documentation by skill level
 │   ├── beginner/       # Getting started guides
 │   ├── intermediate/   # Architecture and optimization  
 │   └── expert/         # CUDA, PTX, advanced topics
+├── tensor_core_validator.py    # RTX 3090 optimization checker
 └── results/            # Benchmark data and analysis
 ```
 
@@ -91,12 +96,13 @@ This project recreates the breakthrough showcased in [this interview](https://yo
 
 | **I Want To...** | **Start Here** | **Skill Level** |
 |-------------------|----------------|-----------------|
-| See it working | `examples/basic/quick_demo.py` | Any |
-| Understand the tech | `docs/TECHNICAL_BACKGROUND.md` | Any |
-| Run benchmarks | `benchmarks/run_benchmarks.py` | Beginner |
-| Optimize performance | `docs/intermediate/OPTIMIZATION_GUIDE.md` | Intermediate |
-| Write CUDA kernels | `docs/expert/CUDA_DEVELOPMENT.md` | Expert |
-| Contribute | `CONTRIBUTING.md` + GitHub Issues | Any |
+| See it working | [examples/basic/quick_demo.py](examples/basic/quick_demo.py) | Any |
+| Understand the tech | [docs/TECHNICAL_BACKGROUND.md](docs/TECHNICAL_BACKGROUND.md) | Any |
+| Run benchmarks | [benchmarks/run_benchmarks.py](benchmarks/run_benchmarks.py) | Beginner |
+| Optimize performance | [docs/intermediate/OPTIMIZATION_GUIDE.md](docs/intermediate/OPTIMIZATION_GUIDE.md) | Intermediate |
+| Write CUDA kernels | [docs/expert/CUDA_DEVELOPMENT.md](docs/expert/CUDA_DEVELOPMENT.md) | Expert |
+| Validate Tensor Cores | [tensor_core_validator.py](tensor_core_validator.py) | Expert |
+| Contribute | [CONTRIBUTING.md](CONTRIBUTING.md) + [GitHub Issues](https://github.com/toddllm/mirage-hello/issues) | Any |
 
 ---
 
@@ -114,7 +120,7 @@ This project recreates the breakthrough showcased in [this interview](https://yo
 3. **[Hard]** TensorRT conversion for inference optimization
 4. **[Expert]** Custom CUDA kernels for bottleneck operations
 
-*[See all issues →](https://github.com/toddllm/mirage-hello/issues)*
+**→ [View All Issues](https://github.com/toddllm/mirage-hello/issues) | [Create New Issue](https://github.com/toddllm/mirage-hello/issues/new/choose)**
 
 ---
 
@@ -159,10 +165,10 @@ This project recreates the breakthrough showcased in [this interview](https://yo
 
 ## 💬 **Community**
 
-- **💬 Discussions**: Technical questions, ideas, showcase
-- **🐛 Issues**: Bug reports, optimization opportunities  
-- **📖 Wiki** *(coming soon)*: Detailed technical knowledge base
-- **💬 Discord** *(coming soon)*: Real-time collaboration
+- **💬 [GitHub Discussions](https://github.com/toddllm/mirage-hello/discussions)**: Technical questions, ideas, showcase
+- **🐛 [GitHub Issues](https://github.com/toddllm/mirage-hello/issues)**: Bug reports, optimization opportunities  
+- **📖 [Documentation](docs/)**: Beginner → Expert guides
+- **⚡ [Tensor Core Validator](tensor_core_validator.py)**: Check your optimization compliance
 
 ---
 
