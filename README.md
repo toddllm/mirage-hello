@@ -10,17 +10,13 @@
 ```bash
 git clone git@github.com:toddllm/mirage-hello.git
 cd mirage-hello
-pip install torch torchvision pynvml opencv-python flask
+pip install torch torchvision opencv-python flask
 
-# Quick command-line demo
-python examples/basic/quick_demo.py
-
-# 🔥 NEW: Live camera demo on your LAN
-python demo/camera_web_demo.py
+# 🔥 Live camera demo - real GPU processing of your webcam
+python demo/demo.py
 # Access from any device: http://your-ip:8080
 ```
-**→ [Quick Demo: examples/basic/quick_demo.py](examples/basic/quick_demo.py)**  
-**→ [🔥 Camera Demo: demo/camera_web_demo.py](demo/camera_web_demo.py) (LAN accessible!)**
+**→ [🔥 Live Demo: demo/demo.py](demo/demo.py) - Real camera + GPU processing!**
 
 ### 🔬 **I want to optimize performance**
 ```bash
