@@ -117,23 +117,22 @@ class RealGPUProcessor:
     def _add_edge_enhancement(self, tensor):
         """Add visible processing effect to show GPU is actually working"""
         
-        # Edge detection using convolution
-        edge_kernel = torch.tensor([
-            [[-1, -1, -1],
-             [-1,  8, -1], 
-             [-1, -1, -1]]
-        ], dtype=tensor.dtype, device=tensor.device).unsqueeze(0).repeat(3, 1, 1, 1)
+        # Simple but visible effects that definitely work
+        # 1. Invert colors partially (very obvious)
+        inverted = 1.0 - tensor  # Invert
         
-        # Apply edge detection
-        edges = torch.nn.functional.conv2d(tensor, edge_kernel, padding=1, groups=3)
+        # 2. Add rainbow color effect
+        B, C, H, W = tensor.shape
         
-        # Combine with original (edge-enhanced result)  
-        enhanced = tensor + 0.3 * edges
+        # Create color gradients
+        x_grad = torch.linspace(-1, 1, W, device=tensor.device, dtype=tensor.dtype).view(1, 1, 1, W)
+        y_grad = torch.linspace(-1, 1, H, device=tensor.device, dtype=tensor.dtype).view(1, 1, H, 1)
         
-        # Add subtle color shift to make processing obvious
-        color_shift = torch.tensor([1.1, 0.9, 1.05], device=tensor.device, dtype=tensor.dtype)
-        color_shift = color_shift.view(1, 3, 1, 1)
-        enhanced = enhanced * color_shift
+        # Apply different effects to each channel
+        enhanced = tensor.clone()
+        enhanced[:, 0] = tensor[:, 0] + 0.3 * x_grad  # Red channel with x gradient
+        enhanced[:, 1] = tensor[:, 1] + 0.3 * y_grad  # Green channel with y gradient  
+        enhanced[:, 2] = tensor[:, 2] * 0.7 + inverted[:, 2] * 0.3  # Blue channel partially inverted
         
         return torch.clamp(enhanced, -1, 1)
     
@@ -528,9 +527,13 @@ def process_frame():
         _, encoded = cv2.imencode('.jpg', processed_frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
         processed_b64 = base64.b64encode(encoded).decode('utf-8')
         
+        # Debug: Print processing info
+        print(f"📸 Processed frame: {frame.shape} → {processed_frame.shape}, FPS: {gpu_processor.fps:.1f}")
+        
         return {
             'success': True,
-            'processed': processed_b64
+            'processed': processed_b64,
+            'debug': f"Processed {frame.shape} frame"
         }
         
     except Exception as e:
